@@ -108,7 +108,7 @@ public @interface Target {
 - **ElementType.CONSTRUCTOR:** применяется для определения конструктора
 - **ElementType.FIELD:** применяется для определения поля, включая константы Enum
 - **ElementType.LOCAL_VARIABLE:** применяется для определения локальной переменной
-- **ElementType.METHOD:**применяется для определения метода
+- **ElementType.METHOD:** применяется для определения метода
 - **ElementType.MODULE:** применяется для определения модуля (с Java 9)
 - **ElementType.PACKAGE:** применяется для определения пакета
 - **ElementType.PARAMETER:** применяется для определения параметра
