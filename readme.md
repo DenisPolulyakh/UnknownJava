@@ -15,6 +15,8 @@
  - #### [5.1 Аннотация @Override](#51-аннотация-override)
  - #### [5.2 Аннотация @Deprecated](#52-аннотация-deprecated)
  - #### [5.3 Аннотация @SuppressWarnings](#53-аннотация-suppressWarnings-1)
+ - #### [5.4 Аннотация @SafeVarargs](#54-аннотация-safeVarargs-1)
+ - #### [5.5 Аннотация @FunctionalInterface](#55-аннотация-functionalInterface-1)
 
 ### 1. Маркерный интерфейс
 
@@ -334,7 +336,7 @@ public @interface SuppressWarnings{}
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.CONSTRUCTOR, ElementType.METHOD})
-public @interface SafeVarargs
+public @interface SafeVarargs{}
 ~~~
 
 Эта аннотация, представленная в java 7, гарантирует, что тело аннотированного метода или конструктора не выполняет потенциально небезопасные операции с параметром varargs. 
@@ -346,6 +348,31 @@ public @interface SafeVarargs
 Exception in thread "main" java.lang.ArrayStoreException: java.lang.Integer
 at j.unknown.www.CheckSafeVarArgs.methodVarArgs(CheckSafeVarArgs.java:9)
 at j.unknown.www.CheckSafeVarArgs.main(CheckSafeVarArgs.java:13)
+
+### 5.5 Аннотация @FunctionalInterface
+~~~java
+@Documented
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.TYPE)
+public @interface FunctionalInterface
+~~~
+
+Как и аннотация @Override, аннотация @FunctionalInterface защищает код от возможных ошибок программиста. Несмотря на то, что любой интерфейс может содержать бесконечное множество абстрактных методов, функциональный интерфейс может содержать исключительно один абстрактный метод, иначе он не сможет использоваться в лямбда-выражении.
+
+В тоже время, абстрактные методы, переопределяющие один из публичных методов класса Object, не учитываются.
+~~~java
+package j.unknown.www;
+
+import java.util.Date;
+
+@FunctionalInterface
+public interface FunctionalInterfaceMy {
+    public abstract String getInfo();
+    public abstract Date getDate();
+}
+~~~
+При наличии аннотации и двух абстрактных методов, до компиляции будет предупреждение и @FunctionalInterface будет подчеркнут красным.
+
 
 
 
