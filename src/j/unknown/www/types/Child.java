@@ -1,4 +1,4 @@
-package j.unknown.www.annotation;
+package j.unknown.www.types;
 
 
 public class Child extends Parent{

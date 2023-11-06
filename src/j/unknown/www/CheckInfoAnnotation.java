@@ -1,6 +1,6 @@
 package j.unknown.www;
 
-import j.unknown.www.annotation.DemoInfoAnnotation;
+import j.unknown.www.types.DemoInfoAnnotation;
 import j.unknown.www.annotation.InfoAnnotation;
 
 import java.lang.annotation.Annotation;

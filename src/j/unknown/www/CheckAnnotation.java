@@ -1,7 +1,8 @@
 package j.unknown.www;
 
 import j.unknown.www.annotation.*;
-
+import j.unknown.www.types.Child;
+import j.unknown.www.types.Parent;
 
 
 public class CheckAnnotation {

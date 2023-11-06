@@ -1,10 +1,10 @@
 package j.unknown.www;
 
 import j.unknown.www.annotation.Marker;
-import j.unknown.www.annotation.ThisClassMark;
-import j.unknown.www.annotation.ThisClassNotMark;
+import j.unknown.www.types.ThisClassMark;
+import j.unknown.www.types.ThisClassNotMark;
 
-public class CheckMarkInterface {
+public class CheckMark {
     public static void main(String[] args) {
         ThisClassMark mark = new ThisClassMark();
         ThisClassNotMark notMark = new ThisClassNotMark();
