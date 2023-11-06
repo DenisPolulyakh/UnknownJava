@@ -12,11 +12,14 @@
  - #### [4.4 Аннотация @Inherited](#44-аннотация-inherited-1)
  - #### [4.5 Аннотация @Repeatable](#45-аннотация-repeatable-1)
  - #### [5. Аннотации для кода](#5-aннотации-для-кода-1)
+ - #### [5.1 Аннотация @Override](#51-аннотация-override)
+ - #### [5.2 Аннотация @Deprecated](#52-аннотация-deprecated)
+ - #### [5.3 Аннотация @SuppressWarnings](#53-аннотация-suppressWarnings-1)
 
 ### 1. Маркерный интерфейс
 
 Предшественники аннотаций JAVA это маркерные клaссы, такие как Serializable, Cloneable.
-``` java
+```java
 public class Foo implements MarkerInterface {} //(1)
 
 @MyAnnotation 
@@ -43,7 +46,7 @@ public class Foo {} //(2)
 ### 2. Анатомия аннотации
    Базовое определение аннотации выглядит следующим образом
    
-   ~~~ java
+   ~~~java
    @Retention(RetentionPolicy.RUNTIME)
    @Target(ElementType.TYPE)
    @Inherited
@@ -90,7 +93,7 @@ public class Foo {} //(2)
 - **@Repetable:** аннотация может быть использована повторно в том же месте
 
 ### 4.1 Аннотация @Target
-``` java
+```java
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.ANNOTATION_TYPE)
@@ -133,11 +136,12 @@ public @interface PackageContext {
 ~~~
 
 ### 4.2 Аннотация @Retention
-~~~ java
+~~~java
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.ANNOTATION_TYPE)
-public @interface Retention
+public @interface Retention{    
+}
 ~~~
 
 Аннотация определяет до какого шага компиляции аннотация будет доступна.
@@ -151,14 +155,14 @@ public @interface Retention
 
 Определим аннотацию
 
-``` java
+```java
 @Retention(RetentionPolicy.SOURCE)
 public @interface RetentionAnnotation {
 }
 ```
 Пометим класс двумя аннотациями
 
-``` java
+```java
 @RetentionAnnotation
 @Deprecated(since = "15",forRemoval = false)
 public class RetentionWork {
@@ -173,11 +177,11 @@ public class RetentionWork {
 
 ### 4.3 Аннотация @Documented
 
-``` java
+```java
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.ANNOTATION_TYPE)
-public @interface Documented
+public @interface Documented{}
 ```
 
 По умолчанию аннотации не включаются в javadoc. Чтобы это произошло, необходимо добавить аннотацию @Documented
@@ -187,11 +191,11 @@ public @interface Documented
 
 ### 4.4 Аннотация @Inherited
 
-~~~ java
+~~~java
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.ANNOTATION_TYPE)
-public @interface Inherited
+public @interface Inherited{}
 ~~~
 
 Если мы хотим, чтобы аннотации также наследовались, родительский класс необходимо пометить аннотацией @Inherited: в этом случае все аннотации родительского класса будут применимы к наследникам.
@@ -202,11 +206,11 @@ public @interface Inherited
 
 ### 4.5 Аннотация @Repeatable
 
-~~~ java
+~~~java
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.ANNOTATION_TYPE)
-public @interface Repeatable
+public @interface Repeatable{}
 ~~~
 
 Применяется в случаях, когда нужно применить аннотацию несколько раз.
@@ -214,7 +218,7 @@ public @interface Repeatable
 До java 8 применялось группирование аннотаций в единый контейнер
 
 Аннотация, которая будет повторяться
-~~~ java
+~~~java
 @interface Game {
     String name() default "Что-то под вопросом";
     String day();
@@ -222,7 +226,7 @@ public @interface Repeatable
 ~~~
 
 Определим контейнер
-~~~ java
+~~~java
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
@@ -233,7 +237,7 @@ import java.lang.annotation.RetentionPolicy;
 ~~~
 
 Пример использования
-~~~ java
+~~~java
 @Games({
     @Game(name = "Крикет",  day = "воскресенье"),
     @Game(day = "четверг"),
@@ -259,7 +263,7 @@ public class Main {
 
 Таким образом, мы должны создать контейнерную аннотацию, а затем указать её тип в качестве аргумента.
 В нашем случае, перед определением аннотации @Game необходимо добавить новую аннотацию @Repeatable:
-~~~ java
+~~~java
 import java.lang.annotation.Repeatable;
 
 @Repeatable(Games.class)
@@ -276,10 +280,72 @@ import java.lang.annotation.Repeatable;
 Их пять:
 - **@Override:** указывает, что метод переопределяет, объявленный в суперклассе или интерфейсе метод
 - **@Deprecated:** помечает код, как устаревший
-- **SuppressWarnings:** отключает для аннотированного элемента предупреждения компилятора. Обратите внимание, что если необходимо отключить несколько категорий предупреждений, их следует добавить в фигурные скобки, например @SuppressWarnings ({"unchecked", "cast"}).
+- **@SuppressWarnings:** отключает для аннотированного элемента предупреждения компилятора. Обратите внимание, что если необходимо отключить несколько категорий предупреждений, их следует добавить в фигурные скобки, например @SuppressWarnings ({"unchecked", "cast"}).
 - **@SafeVarargs:** отключает предупреждения для всех методов или конструкторов, принимающих в качестве параметра varargs
 - **@FunctionalInterface:** помечает интерфейсы, имеющие только один абстрактный метод (при этом они могут содержать любое количество методов по умолчанию или статических)
 
+### 5.1 Аннотация @Override
+
+~~~java
+@Target(ElementType.METHOD)
+@Retention(RetentionPolicy.SOURCE)
+public @interface Override{}
+~~~
+
+**Маркерная аннотация**, указывает на то, что метод переопределяет/реализует унаследованный метод. Аннотация позволяет избежать ошибок,
+поскольку при наличии данной аннотации компилятор сгенерирует сообщение, если не выполниться одно из условий:
+- Метод переопределяет или реализует метод, объявленный в супертипе
+- У метода есть сигнатура (название метода + список параметров), эквивалентная переопределяемой сигнатуре метода, объявленного в родительском классе/интерфейсе.
+
+### 5.2 Аннотация @Deprecated
+~~~java
+@Documented
+@Retention(RetentionPolicy.RUNTIME)
+@Target(value={CONSTRUCTOR, FIELD, LOCAL_VARIABLE, METHOD, PACKAGE, MODULE, PARAMETER, TYPE})
+public @interface Deprecated{    
+}
+~~~
+
+Помечает, что элемент(конструктор, поле, локальная переменная, метод, пакет, параметр, тип) является устаревшим и возможно будет удален в следующих версиях.
+Ошибок компиляции при этом не возникает.
+![Deprecated](./resources/Deprecated.jpg)
+IDE перечеркивает класс, помеченный @Deprecated
+
+### 5.3 Аннотация @SuppressWarnings
+~~~java
+@Target({TYPE, FIELD, METHOD, PARAMETER, CONSTRUCTOR, LOCAL_VARIABLE, MODULE})
+@Retention(RetentionPolicy.SOURCE)
+public @interface SuppressWarnings{}
+~~~
+
+Когда нельзя или нет желания устранять предупрежедение компилятора, сообщения можно устранять. Например, как на рисунке ниже.
+![SuppressWarnings](./resources/SuppressWarnings.jpg). 
+
+При применении @SuppressWarnings("deprecation"), класс который помечен, как @Deprecated, IDE не будет зачеркивать. 
+
+Чтобы отключить список из нескольких предупреждений, необходимо через запятую перечислить список предупреждений.
+Например, в следующем виде:
+~~~java
+@SuppressWarnings({"unused", "deprecation"})
+~~~
+
+### 5.4 Аннотация @SafeVarargs
+~~~java
+@Documented
+@Retention(RetentionPolicy.RUNTIME)
+@Target({ElementType.CONSTRUCTOR, ElementType.METHOD})
+public @interface SafeVarargs
+~~~
+
+Эта аннотация, представленная в java 7, гарантирует, что тело аннотированного метода или конструктора не выполняет потенциально небезопасные операции с параметром varargs. 
+Аннотация @SafeVarargs похожа на @SuppressWarnings тем, что позволяет нам объявить, что конкретное предупреждение компилятора является ложным срабатыванием. 
+Добавлять эту аннотацию мы можем только убедившись в том, что наши действия безопасны.
+[Пример когда может возникнуть исключение](/src/j/unknown/www/CheckSafeVarArgs.java)
+Без аннотации, компилятор подчеркивает красным метод methodVarArgs(). 
+При принудительном исполнении возникает ошибка времени исполнения
+Exception in thread "main" java.lang.ArrayStoreException: java.lang.Integer
+at j.unknown.www.CheckSafeVarArgs.methodVarArgs(CheckSafeVarArgs.java:9)
+at j.unknown.www.CheckSafeVarArgs.main(CheckSafeVarArgs.java:13)
 
 
 

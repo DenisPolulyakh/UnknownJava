@@ -5,6 +5,7 @@ import j.unknown.www.types.RetentionWork;
 import java.lang.annotation.Annotation;
 
 public class CheckRetentionAnnotation {
+
     public static void main(String[] args) {
         RetentionWork retentionWork = new RetentionWork();
         Annotation[] annotations = retentionWork.getClass().getAnnotations();
