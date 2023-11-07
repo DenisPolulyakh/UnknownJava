@@ -17,6 +17,7 @@
  - #### [5.3 Аннотация @SuppressWarnings](#53-аннотация-suppressWarnings-1)
  - #### [5.4 Аннотация @SafeVarargs](#54-аннотация-safeVarargs-1)
  - #### [5.5 Аннотация @FunctionalInterface](#55-аннотация-functionalInterface-1)
+ - #### [6. Аннотация @Native](#6-аннотация-native)
 
 ### 1. Маркерный интерфейс
 
@@ -374,5 +375,15 @@ public interface FunctionalInterfaceMy {
 При наличии аннотации и двух абстрактных методов, до компиляции будет предупреждение и @FunctionalInterface будет подчеркнут красным.
 
 
+### 6. Аннотация @Native
+
+~~~java
+@Documented
+@Target(ElementType.FIELD)
+@Retention(RetentionPolicy.SOURCE)
+public @interface Native{}
+~~~
+
+Указывает на то, что помеченное поле, является константой.
 
 
